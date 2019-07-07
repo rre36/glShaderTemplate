@@ -39,14 +39,14 @@ void main() {
     // hyperfocal to inifity is clear though dof extends from 1/2 hyper to hyper -- Cursor beyond hyperfocal
     
     float mixAmount = 0.0;
-    
+    /*
     if (depth < cursorDepth) {
     	mixAmount = clamp(2.0 * ((clamp(cursorDepth, 0.0, HYPERFOCAL) - depth) / (clamp(cursorDepth, 0.0, HYPERFOCAL))), 0.0, 1.0);
 	} else if (cursorDepth == HYPERFOCAL) {
 		mixAmount = 0.0;
 	} else {
 		mixAmount =  1.0 - clamp((((cursorDepth * HYPERFOCAL) / (HYPERFOCAL - cursorDepth)) - (depth - cursorDepth)) / ((cursorDepth * HYPERFOCAL) / (HYPERFOCAL - cursorDepth)), 0.0, 1.0);
-	}
+	}*/
     
     if (mixAmount != 0.0) {
 		gl_FragColor = mix(baseColor, getBlurredColor(), mixAmount);
