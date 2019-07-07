@@ -6,9 +6,8 @@
 // If you want a higher quality blur, remove the forward slashes from the following line:
 //#define USE_HIGH_QUALITY_BLUR
 
-uniform sampler2D gcolor;
-uniform sampler2D gdepth;
-uniform sampler2D composite;
+uniform sampler2D colortex0;
+uniform sampler2D depthtex0;
 
 varying vec4 texcoord;
 
@@ -29,7 +28,7 @@ float samples = 0.0;
 vec2 space;
 
 void main() {
-	vec4 baseColor = texture2D(composite, texcoord.st);
+	vec4 baseColor = texture2D(colortex0, texcoord.st);
 
 	float depth = getDepth(texcoord.st);
 	    
@@ -57,7 +56,7 @@ void main() {
 }
 
 float getDepth(vec2 coord) {
-    return 2.0 * near * far / (far + near - (2.0 * texture2D(gdepth, coord).x - 1.0) * (far - near));
+    return 2.0 * near * far / (far + near - (2.0 * texture2D(depthtex0, coord).x - 1.0) * (far - near));
 }
 
 vec4 getBlurredColor() {
@@ -90,58 +89,58 @@ vec4 getBlurredColor() {
 		
 	if (space.s >= ac0_4.s && space.t >= ac0_4.t) {
 
-		blurredColor += texture2D(composite, texcoord.st + vec2(0.0, ac0_4.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_4.s, 0.0));   
-		blurredColor += texture2D(composite, texcoord.st + vec2(0.0, -ac0_4.t)); 
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_4.s, 0.0)); 
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(0.0, ac0_4.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_4.s, 0.0));   
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(0.0, -ac0_4.t)); 
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_4.s, 0.0)); 
 		
 #ifdef USE_HIGH_QUALITY_BLUR
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_4x0_7.s, 0.0));       
-		blurredColor += texture2D(composite, texcoord.st + vec2(0.0, -ac0_4x0_7.t));     
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_4x0_7.s, 0.0));     
-		blurredColor += texture2D(composite, texcoord.st + vec2(0.0, ac0_4x0_7.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_4x0_7.s, 0.0));       
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(0.0, -ac0_4x0_7.t));     
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_4x0_7.s, 0.0));     
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(0.0, ac0_4x0_7.t));
 	
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_4x0_4.s, 0.0));
-		blurredColor += texture2D(composite, texcoord.st + vec2(0.0, -ac0_4x0_4.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_4x0_4.s, 0.0));
-		blurredColor += texture2D(composite, texcoord.st + vec2(0.0, ac0_4x0_4.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_4x0_4.s, 0.0));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(0.0, -ac0_4x0_4.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_4x0_4.s, 0.0));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(0.0, ac0_4x0_4.t));
 #endif
 
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_29.s, -ac0_29.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_29.s, ac0_29.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_29.s, ac0_29.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_29.s, -ac0_29.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_29.s, -ac0_29.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_29.s, ac0_29.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_29.s, ac0_29.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_29.s, -ac0_29.t));
 	
 #ifdef USE_HIGH_QUALITY_BLUR
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_29x0_7.s, ac0_29x0_7.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_29x0_7.s, -ac0_29x0_7.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_29x0_7.s, ac0_29x0_7.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_29x0_7.s, -ac0_29x0_7.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_29x0_7.s, ac0_29x0_7.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_29x0_7.s, -ac0_29x0_7.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_29x0_7.s, ac0_29x0_7.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_29x0_7.s, -ac0_29x0_7.t));
 		
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_29x0_4.s, ac0_29x0_4.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_29x0_4.s, -ac0_29x0_4.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_29x0_4.s, ac0_29x0_4.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_29x0_4.s, -ac0_29x0_4.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_29x0_4.s, ac0_29x0_4.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_29x0_4.s, -ac0_29x0_4.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_29x0_4.s, ac0_29x0_4.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_29x0_4.s, -ac0_29x0_4.t));
 #endif		
 		
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_15.s, ac0_37.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_37.s, ac0_15.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_37.s, -ac0_15.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_15.s, -ac0_37.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_15.s, ac0_37.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_37.s, ac0_15.t)); 
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_37.s, -ac0_15.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_15.s, -ac0_37.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_15.s, ac0_37.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_37.s, ac0_15.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_37.s, -ac0_15.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_15.s, -ac0_37.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_15.s, ac0_37.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_37.s, ac0_15.t)); 
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_37.s, -ac0_15.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_15.s, -ac0_37.t));
 
 #ifdef USE_HIGH_QUALITY_BLUR
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_15x0_9.s, ac0_37x0_9.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_37x0_9.s, ac0_15x0_9.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_37x0_9.s, -ac0_15x0_9.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_15x0_9.s, -ac0_37x0_9.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_15x0_9.s, ac0_37x0_9.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_37x0_9.s, ac0_15x0_9.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(-ac0_37x0_9.s, -ac0_15x0_9.t));
-		blurredColor += texture2D(composite, texcoord.st + vec2(ac0_15x0_9.s, -ac0_37x0_9.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_15x0_9.s, ac0_37x0_9.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_37x0_9.s, ac0_15x0_9.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_37x0_9.s, -ac0_15x0_9.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_15x0_9.s, -ac0_37x0_9.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_15x0_9.s, ac0_37x0_9.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_37x0_9.s, ac0_15x0_9.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(-ac0_37x0_9.s, -ac0_15x0_9.t));
+		blurredColor += texture2D(colortex0, texcoord.st + vec2(ac0_15x0_9.s, -ac0_37x0_9.t));
 #endif
 
 #ifdef USE_HIGH_QUALITY_BLUR
@@ -217,7 +216,7 @@ vec4 getSampleWithBoundsCheck(vec2 offset) {
 	vec2 coord = texcoord.st + offset;
 	if (coord.s <= 1.0 && coord.s >= 0.0 && coord.t <= 1.0 && coord.t >= 0.0) {
 		samples += 1.0;
-		return texture2D(composite, coord);
+		return texture2D(colortex0, coord);
 	} else {
 		return vec4(0.0);
 	}

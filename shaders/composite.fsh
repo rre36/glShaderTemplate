@@ -2,18 +2,18 @@
 //can be anything up to 450, 120 is still common due to compatibility reasons, but i suggest something from 130 upwards so you can use the new "varying" syntax, i myself usually use "400 compatibility"
 
 //uniforms
-uniform sampler2D gcolor; 	//colortex0, scene color
-uniform sampler2D gdepth;	//colortex1, can be used for anything nowadays since we have depthtex0 and 1
-uniform sampler2D shadow; 	//shadowtex0 with optifine
+uniform sampler2D colortex0; 	//scene color
+uniform sampler2D depthtex0;	//scene depth
+uniform sampler2D shadowtex0; 	//shadowdepth
 
 //shadowmap resolution
-/* SHADOWRES:4096 */
+const int shadowMapResolution   = 4096;
 
 //shadowdistance
-/* SHADOWHPL:100.0 */
+const float shadowDistance      = 128.0;
 
 //input from vertex
-varying vec4 texcoord; 	//a vec2 with the xy-components would already be enough here
+varying vec2 texcoord; 	//scene texture coordinates
 
 //uniforms (projection matrices)
 uniform mat4 gbufferProjectionInverse;
@@ -23,8 +23,11 @@ uniform mat4 shadowModelView;
 
 
 /* functions to be called in main and global variables go here */
+vec3 sceneColor = vec3(0.0);
 
 void main() { 	//code goes here
+	sceneColor 	= texture2D(colortex0, texcoord).rgb;
+
 	//get screen-/viewspace position
 	vec4 fragposition = gbufferProjectionInverse * vec4(texcoord.s * 2.0 - 1.0, texcoord.t * 2.0 - 1.0, 2.0 * texture2D(gdepth, texcoord.st).x - 1.0, 1.0);
 	fragposition /= fragposition.w;
@@ -60,7 +63,6 @@ void main() { 	//code goes here
 	}
 
 	//write to framebuffer attachment
-	gl_FragData[0] = texture2D(gcolor, texcoord.st);
-	gl_FragData[1] = texture2D(gdepth, texcoord.st);
-	gl_FragData[3] = vec4(texture2D(gcolor, texcoord.st).rgb * shading, 1.0);
+	/*DRAWBUFFERS:0*/
+	gl_FragData[0] = vec4(sceneColor*shading, 1.0);
 }
