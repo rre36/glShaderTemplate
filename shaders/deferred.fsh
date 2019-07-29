@@ -1,6 +1,9 @@
 #version 120
 //can be anything up to 450, 120 is still common due to compatibility reasons, but i suggest something from 130 upwards so you can use the new "varying" syntax, i myself usually use "400 compatibility"
 
+const int RGB16 = 0;
+const int colortex0Format   = RGB16;
+
 //include math functions from file
 #include "/lib/math.glsl"
 

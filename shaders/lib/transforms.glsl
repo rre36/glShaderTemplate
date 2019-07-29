@@ -21,7 +21,7 @@ vec3 toWorldpos(vec3 screenPos) {
     return posWorldSpace;
 }
 
-//convert worlspace to screenspace
+//convert worldspace to screenspace
 vec3 toScreenpos(vec3 worldpos) {
     vec3 posWorldSpace  = worldpos;
     posWorldSpace.xyz  -= cameraPosition.xyz;
