@@ -9,6 +9,7 @@ const int colortex0Format   = RGB16;
 
 //uniforms
 uniform sampler2D colortex0; 	//scene color
+uniform sampler2D colortex1;	//scene normals
 uniform sampler2D depthtex0;	//scene depth
 uniform sampler2D shadowtex0; 	//shadowdepth
 
@@ -73,11 +74,20 @@ float getShadow(sampler2D shadowtex, in vec3 shadowpos, in float comparedepth) {
 	return 1.0-shadow;
 }
 
+float getDiffuse(vec3 normal) {
+	float lambert 	= dot(normal, lightVec);
+		lambert 	= max(lambert, 0.0);
+	return lambert;
+}
+
 void main() {
+	vec3 sceneNormal;
+
 	//sample necessary scene textures
 	sceneColor 	= texture2D(colortex0, texcoord).rgb;
 	sceneColor 	= pow(sceneColor, vec3(2.2)); 	//linearize scene color
 	sceneDepth 	= texture2D(depthtex0, texcoord).x;
+	sceneNormal	= normalize(texture2D(colortex1, texcoord).xyz*2.0-1.0);
 
 	//calculate necessary positions
 	vec3 screenpos 	= getScreenpos(sceneDepth, texcoord);
@@ -90,8 +100,13 @@ void main() {
 	float comparedepth 	= 0.0;
 
 	if (isTerrain) {
-		vec3 shadowcoord 	= getShadowCoordinate(screenpos, 0.06, comparedepth);
-			shadow 			= getShadow(shadowtex0, shadowcoord, comparedepth);
+		float diffuse 		= getDiffuse(sceneNormal);
+
+		if (diffuse>0.0) {
+			vec3 shadowcoord 	= getShadowCoordinate(screenpos, 0.06, comparedepth);
+				shadow 			= getShadow(shadowtex0, shadowcoord, comparedepth);
+		}
+		shadow 	= min(diffuse, shadow);
 
 		vec3 lightcolor 	= sunlightColor*shadow + skylightColor;
 
