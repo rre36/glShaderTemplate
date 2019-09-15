@@ -74,8 +74,8 @@ float getShadow(sampler2D shadowtex, in vec3 shadowpos, in float comparedepth) {
 	return 1.0-shadow;
 }
 
-float getDiffuse(vec3 normal) {
-	float lambert 	= dot(normal, lightVec);
+float getDiffuse(vec3 normal, vec3 lightvec) {
+	float lambert 	= dot(normal, lightvec);
 		lambert 	= max(lambert, 0.0);
 	return lambert;
 }
@@ -100,7 +100,7 @@ void main() {
 	float comparedepth 	= 0.0;
 
 	if (isTerrain) {
-		float diffuse 		= getDiffuse(sceneNormal);
+		float diffuse 		= getDiffuse(sceneNormal, lightVec);
 
 		if (diffuse>0.0) {
 			vec3 shadowcoord 	= getShadowCoordinate(screenpos, 0.06, comparedepth);
