@@ -13,12 +13,6 @@ void main() {
 	
 	vec4 position = gl_Vertex;
 
-	if (mc_Entity.x == 31.0 && texcoord.t < 0.15) {
-		float magnitude = sin(worldTime * 3.14159265358979323846264 / 172.0) * 0.2;
-		position.x += sin(worldTime * 3.14159265358979323846264 / 86.0) * magnitude;
-		position.z += sin(worldTime * 3.14159265358979323846264 / 72.0) * magnitude;
-	}
-
 	gl_Position = gl_ProjectionMatrix * (gl_ModelViewMatrix * position);
 	
 	color = gl_Color;
