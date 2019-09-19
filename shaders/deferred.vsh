@@ -13,7 +13,7 @@ uniform vec3 shadowLightPosition;
 void main() {
 	gl_Position = ftransform();
 
-	sunlightColor = vec3(1.0, 0.5, 0.0);
+	sunlightColor = vec3(1.0, 1.0, 1.0);
 	skylightColor = vec3(0.1, 0.1, 0.1);
 	torchlightColor = vec3(1.0, 0.3, 0.0);
 	
