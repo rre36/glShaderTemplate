@@ -1,3 +1,5 @@
+//these will be available in the fragment shader now, this can be more efficient for some calculations too because per-vertex is cheaper than per fragment/pixel
+//stuff like sunlight color get's usually done here because of that
 varying vec4 color;
 varying vec4 texcoord;
 varying vec4 lmcoord;

@@ -1,5 +1,7 @@
 #version 120
 
+//if you use a custom sky just replace the contents of void main() with a discard call
+
 varying vec4 color;
 
 const int GL_LINEAR = 9729;
