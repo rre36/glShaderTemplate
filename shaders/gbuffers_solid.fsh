@@ -1,7 +1,7 @@
 //we use this for all solid objects because they get rendered the same way anyways
 //redundant code can be handled like this as an include to make your life easier
 
-uniform sampler2D tex; 		//this is our albedo texture
+uniform sampler2D tex; 		//this is our albedo texture. optifine's "default" name for this is "texture" but that collides with the texture() function of newer OpenGL versions. We use "tex" or "gcolor" instead, although it is just falling back onto the same sampler as an undefined behavior
 uniform sampler2D lightmap;	//the vanilla lightmap texture, basically useless with shaders
 
 //these are our inputs from the vertex shader

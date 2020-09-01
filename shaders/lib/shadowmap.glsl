@@ -1,4 +1,4 @@
-//the functions in this file are "bending" the shadowmap so that it conatins higher detail close to the camera
+//the functions in this file are "bending" the shadowmap so that it contains higher detail close to the camera
 //it also allows for infinite shadowdistances
 //method based on code from robobo1221
 

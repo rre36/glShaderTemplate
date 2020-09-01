@@ -2,10 +2,11 @@
 //can be anything up to 450, 120 is still common due to compatibility reasons, but i suggest something from 130 upwards so you can use the new "varying" syntax, i myself usually use "400 compatibility"
 
 //set the main framebuffer attachment to use RGB16 as the format to give us higher color precision, for hdr you would want to use RGB16F instead
-const int RGB16 = 0;
-const int RGBA16 = 0;
+//this is commented out since Optifine only needs to parse it without being used in code
+/*
 const int colortex0Format   = RGB16;
 const int colortex2Format 	= RGBA16;
+*/
 
 //include math functions from file
 #include "/lib/math.glsl"
@@ -17,7 +18,7 @@ uniform sampler2D colortex2;	//scene lightmap
 uniform sampler2D depthtex0;	//scene depth
 
 //enable shadow2D shadows and bind shadowtex buffer
-const bool shadowHardwareFiltering = true;
+const bool shadowHardwareFiltering = true; 	//enable hardware filtering for shadow2D
 uniform sampler2DShadow shadowtex1; 	//shadowdepth
 
 //shadowmap resolution
@@ -52,12 +53,9 @@ uniform mat4 shadowModelView;
 	functions to be called in main and global variables go here
 	however keep the amount of global variables rather low since the number of temp registers is limited,
 	so large amounts of constantly changed global variables can cause performance bottlenecks
-	also having non-constant global variables is considered bad practice by some and will cause issues
+	also having non-constant global variables is considered bad practice and will cause issues
 	if you sample a texture outside of void main() or a function
 */
-
-vec3 sceneColor 	= vec3(0.0);
-float sceneDepth	= 0.0;
 
 //function to calculate position in shadowspace
 vec3 getShadowCoordinate(in vec3 screenpos, in float bias) {
@@ -95,9 +93,9 @@ void main() {
 	vec2 sceneLightmap;
 
 	//sample necessary scene textures
-	sceneColor 	= texture2D(colortex0, texcoord).rgb;
+	vec3 sceneColor 	= texture2D(colortex0, texcoord).rgb;
 	sceneColor 	= pow(sceneColor, vec3(2.2)); 	//linearize scene color
-	sceneDepth 	= texture2D(depthtex0, texcoord).x;
+	vec3 sceneDepth 	= texture2D(depthtex0, texcoord).x;
 	sceneNormal	= normalize(texture2D(colortex1, texcoord).xyz*2.0-1.0);
 	sceneLightmap = texture2D(colortex2, texcoord).xy;
 	sceneLightmap.x = pow2(sceneLightmap.x); 	//this improves the torchlight falloff a bit
@@ -112,7 +110,7 @@ void main() {
 	float shadow 		= 1.0;
 	float comparedepth 	= 0.0;
 
-	//check if it is even terrain and then do shading
+	//check if it even is terrain and then do shading
 	if (isTerrain) {
 		float diffuse 		= getDiffuse(sceneNormal, lightVec); 	//get diffuse shading
 
