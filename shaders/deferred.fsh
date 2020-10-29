@@ -91,7 +91,7 @@ void main() {
 	//sample necessary scene textures
 	vec3 sceneColor 	= texture2D(colortex0, texcoord).rgb;
 		sceneColor 		= pow(sceneColor, vec3(2.2)); 	//linearize scene color
-	vec3 sceneDepth 	= texture2D(depthtex0, texcoord).x;
+	float sceneDepth 	= texture2D(depthtex0, texcoord).x;
 	vec3 sceneNormal	= normalize(texture2D(colortex1, texcoord).xyz*2.0-1.0); 	//get the normals from the buffer we wrote them to
 	vec2 sceneLightmap 	= texture2D(colortex2, texcoord).xy; 	//Get the lightmap from the buffer we previously wrote it to in gbuffers
 		sceneLightmap.x = pow2(sceneLightmap.x); 	//this improves the torchlight falloff a bit
