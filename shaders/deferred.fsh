@@ -80,6 +80,7 @@ float getShadow(sampler2DShadow shadowtex, in vec3 shadowpos) {
 }
 
 //simple lambertian diffuse shading, google "diffuse shading" for a better explaination than i could give right now
+//technically the result should be divided by Pi if you want to be accurate, but since this isn't about accuracy we neglect that part
 float getDiffuse(vec3 normal, vec3 lightvec) {
 	float lambert 	= dot(normal, lightvec);
 		lambert 	= max(lambert, 0.0);
